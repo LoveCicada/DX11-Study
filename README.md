@@ -5,6 +5,16 @@
 - View（视图矩阵）
 - Projection（投影矩阵）
 
+## 学习文档
+
+配套通俗图文教程见 [`docs/`](docs/README.md) 目录，推荐学习路径：
+
+1. 阅读 [导读](docs/00-introduction.md) 与 [坐标空间](docs/01-coordinate-spaces.md) 建立整体概念
+2. 运行 `npm run dev` 打开交互网页，对照操作
+3. 依次阅读 [世界矩阵](docs/02-world-matrix.md) → [视图矩阵](docs/03-view-matrix.md) → [投影矩阵](docs/04-projection-matrix.md) → [MVP 管线](docs/05-mvp-pipeline.md)
+4. 按 [实操指南](docs/07-practice-guide.md) 完成 8 步教学脚本
+5. 学习 [DX11 与 WebGL 差异](docs/06-dx11-vs-webgl.md)，使用网页「坐标系」开关对照
+
 ## 功能
 - World 参数调节：平移、旋转（Pitch/Yaw/Roll）、缩放
 - View 参数调节：相机距离、俯仰、方位、预设视角

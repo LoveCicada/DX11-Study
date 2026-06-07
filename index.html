@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DX11 渲染矩阵可视化教学</title>
+  <link rel="stylesheet" href="./src/styles/main.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航栏 -->
+    <header id="topbar">
+      <div id="topbar-title">
+        <span class="logo">&#9633;</span>
+        <span>DX11 渲染矩阵可视化</span>
+      </div>
+      <div id="topbar-actions">
+        <button class="btn-icon" id="btn-coord-mode" title="坐标系对照切换">坐标系: Web RH</button>
+        <button class="btn-icon" id="btn-demo" title="自动演示 (空格)">&#9654; 演示</button>
+        <button class="btn-icon" id="btn-reset-all" title="全部重置 (R)">&#8634; 重置</button>
+        <button class="btn-icon" id="btn-export" title="导出参数">&#8593; 导出</button>
+        <button class="btn-icon" id="btn-import" title="导入参数">&#8595; 导入</button>
+        <input type="file" id="file-import" accept=".json" style="display:none" />
+        <button class="btn-icon" id="btn-help" title="帮助">? 帮助</button>
+      </div>
+    </header>
+
+    <!-- 主区域：三栏布局 -->
+    <main id="main-area">
+      <!-- 左侧参数面板 -->
+      <aside id="panel-left">
+        <!-- ===== World 矩阵控制 ===== -->
+        <section class="panel-section" id="section-world">
+          <div class="section-header" data-target="world-body">
+            <span class="section-dot" style="background:#ff6b6b"></span>
+            <span>世界矩阵 (World)</span>
+            <span class="section-toggle">▾</span>
+          </div>
+          <div class="section-body" id="world-body">
+            <div class="param-group-label">平移 Translation</div>
+            <div class="param-row">
+              <label>X</label>
+              <input type="range" id="world-tx" min="-10" max="10" step="0.1" value="0" />
+              <input type="number" class="num-input" id="world-tx-num" min="-10" max="10" step="0.1" value="0" />
+            </div>
+            <div class="param-row">
+              <label>Y</label>
+              <input type="range" id="world-ty" min="-10" max="10" step="0.1" value="0" />
+              <input type="number" class="num-input" id="world-ty-num" min="-10" max="10" step="0.1" value="0" />
+            </div>
+            <div class="param-row">
+              <label>Z</label>
+              <input type="range" id="world-tz" min="-10" max="10" step="0.1" value="0" />
+              <input type="number" class="num-input" id="world-tz-num" min="-10" max="10" step="0.1" value="0" />
+            </div>
+            <div class="param-group-label mt8">旋转 Rotation (°)</div>
+            <div class="param-row">
+              <label>Pitch (X)</label>
+              <input type="range" id="world-rx" min="-180" max="180" step="1" value="0" />
+              <input type="number" class="num-input" id="world-rx-num" min="-180" max="180" step="1" value="0" />
+            </div>
+            <div class="param-row">
+              <label>Yaw (Y)</label>
+              <input type="range" id="world-ry" min="-180" max="180" step="1" value="0" />
+              <input type="number" class="num-input" id="world-ry-num" min="-180" max="180" step="1" value="0" />
+            </div>
+            <div class="param-row">
+              <label>Roll (Z)</label>
+              <input type="range" id="world-rz" min="-180" max="180" step="1" value="0" />
+              <input type="number" class="num-input" id="world-rz-num" min="-180" max="180" step="1" value="0" />
+            </div>
+            <div class="param-group-label mt8">缩放 Scale</div>
+            <div class="param-row">
+              <label>S</label>
+              <input type="range" id="world-scale" min="0.1" max="3" step="0.05" value="1" />
+              <input type="number" class="num-input" id="world-scale-num" min="0.1" max="3" step="0.05" value="1" />
+            </div>
+            <div class="btn-row">
+              <button class="btn-sm" id="btn-reset-world">重置 World</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== View 矩阵控制 ===== -->
+        <section class="panel-section" id="section-view">
+          <div class="section-header" data-target="view-body">
+            <span class="section-dot" style="background:#4ecdc4"></span>
+            <span>视图矩阵 (View)</span>
+            <span class="section-toggle">▾</span>
+          </div>
+          <div class="section-body" id="view-body">
+            <div class="param-group-label">相机位置 (球坐标)</div>
+            <div class="param-row">
+              <label>距离</label>
+              <input type="range" id="cam-dist" min="2" max="50" step="0.5" value="10" />
+              <input type="number" class="num-input" id="cam-dist-num" min="2" max="50" step="0.5" value="10" />
+            </div>
+            <div class="param-row">
+              <label>俯仰 (°)</label>
+              <input type="range" id="cam-pitch" min="-89" max="89" step="1" value="25" />
+              <input type="number" class="num-input" id="cam-pitch-num" min="-89" max="89" step="1" value="25" />
+            </div>
+            <div class="param-row">
+              <label>方位 (°)</label>
+              <input type="range" id="cam-yaw" min="-180" max="180" step="1" value="45" />
+              <input type="number" class="num-input" id="cam-yaw-num" min="-180" max="180" step="1" value="45" />
+            </div>
+            <div class="param-group-label mt8">视角预设</div>
+            <div class="preset-btns">
+              <button class="btn-sm preset" data-preset="front">正视</button>
+              <button class="btn-sm preset" data-preset="side">侧视</button>
+              <button class="btn-sm preset" data-preset="top">俯视</button>
+              <button class="btn-sm preset" data-preset="iso">等轴测</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn-sm" id="btn-reset-view">重置 View</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Projection 矩阵控制 ===== -->
+        <section class="panel-section" id="section-proj">
+          <div class="section-header" data-target="proj-body">
+            <span class="section-dot" style="background:#f7b731"></span>
+            <span>投影矩阵 (Projection)</span>
+            <span class="section-toggle">▾</span>
+          </div>
+          <div class="section-body" id="proj-body">
+            <div class="param-row">
+              <label>投影类型</label>
+              <div class="radio-group">
+                <label><input type="radio" name="proj-type" value="perspective" checked /> 透视</label>
+                <label><input type="radio" name="proj-type" value="orthographic" /> 正交</label>
+              </div>
+            </div>
+            <div class="param-row">
+              <label>FOV (°)</label>
+              <input type="range" id="proj-fov" min="10" max="120" step="1" value="60" />
+              <input type="number" class="num-input" id="proj-fov-num" min="10" max="120" step="1" value="60" />
+            </div>
+            <div class="param-row">
+              <label>宽高比</label>
+              <select id="proj-aspect">
+                <option value="1.7778">16:9</option>
+                <option value="1.3333">4:3</option>
+                <option value="1">1:1</option>
+                <option value="2.3333">21:9</option>
+              </select>
+            </div>
+            <div class="param-row">
+              <label>近截面</label>
+              <input type="range" id="proj-near" min="0.1" max="5" step="0.1" value="0.1" />
+              <input type="number" class="num-input" id="proj-near-num" min="0.1" max="5" step="0.1" value="0.1" />
+            </div>
+            <div class="param-row">
+              <label>远截面</label>
+              <input type="range" id="proj-far" min="10" max="500" step="1" value="100" />
+              <input type="number" class="num-input" id="proj-far-num" min="10" max="500" step="1" value="100" />
+            </div>
+            <div class="param-row">
+              <label><input type="checkbox" id="show-frustum" checked /> 显示视锥体</label>
+            </div>
+            <div class="btn-row">
+              <button class="btn-sm" id="btn-reset-proj">重置 Projection</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 坐标追踪 ===== -->
+        <section class="panel-section" id="section-tracker">
+          <div class="section-header" data-target="tracker-body">
+            <span class="section-dot" style="background:#a55eea"></span>
+            <span>坐标追踪</span>
+            <span class="section-toggle">▾</span>
+          </div>
+          <div class="section-body" id="tracker-body">
+            <div class="tracker-hint">输入模型空间中的一个顶点坐标，观察它在各空间中的变换结果</div>
+            <div class="param-row tracker-input">
+              <label>X</label><input type="number" class="num-input" id="track-x" value="1" step="0.5" />
+              <label>Y</label><input type="number" class="num-input" id="track-y" value="1" step="0.5" />
+              <label>Z</label><input type="number" class="num-input" id="track-z" value="1" step="0.5" />
+              <button class="btn-sm" id="btn-track">追踪</button>
+            </div>
+            <div id="tracker-result"></div>
+          </div>
+        </section>
+      </aside>
+
+      <!-- 中部 3D 视口 -->
+      <div id="viewport">
+        <canvas id="three-canvas"></canvas>
+        <div id="viewport-hint">鼠标左键旋转 · 右键平移 · 滚轮缩放</div>
+        <div id="viewport-mode-badge">透视投影</div>
+      </div>
+
+      <!-- 右侧矩阵看板 + 公式解释 -->
+      <aside id="panel-right">
+        <!-- 矩阵数值 -->
+        <section class="panel-section no-collapse" id="section-matrices">
+          <div class="section-header static">
+            <span>矩阵数值</span>
+            <div class="layout-btns">
+              <button class="btn-xs layout-btn active" data-layout="row-major">行主序</button>
+              <button class="btn-xs layout-btn" data-layout="column-major">列主序</button>
+            </div>
+            <div class="precision-btns">
+              <button class="btn-xs prec-btn active" data-prec="2">2位</button>
+              <button class="btn-xs prec-btn" data-prec="4">4位</button>
+              <button class="btn-xs prec-btn" data-prec="full">全</button>
+            </div>
+          </div>
+          <div class="section-body" id="matrices-body">
+            <div class="matrix-block" id="mat-world">
+              <div class="mat-label" style="color:#ff6b6b">World (M_W)</div>
+              <div class="mat-grid" id="mat-world-grid"></div>
+            </div>
+            <div class="matrix-block" id="mat-view">
+              <div class="mat-label" style="color:#4ecdc4">View (M_V)</div>
+              <div class="mat-grid" id="mat-view-grid"></div>
+            </div>
+            <div class="matrix-block" id="mat-proj">
+              <div class="mat-label" style="color:#f7b731">Projection (M_P)</div>
+              <div class="mat-grid" id="mat-proj-grid"></div>
+            </div>
+            <div class="matrix-block" id="mat-mvp">
+              <div class="mat-label" style="color:#a55eea">MVP = M_P × M_V × M_W</div>
+              <div class="mat-grid" id="mat-mvp-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 教学脚本 -->
+        <section class="panel-section no-collapse" id="section-script">
+          <div class="section-header static">
+            <span>教学脚本</span>
+          </div>
+          <div class="section-body" id="script-body">
+            <div id="script-step-title">未开始</div>
+            <div id="script-step-desc">点击“开始脚本”后，会按 World → View → Projection 的顺序逐步讲解并自动设置参数。</div>
+            <div class="btn-row">
+              <button class="btn-sm" id="btn-script-start">开始脚本</button>
+              <button class="btn-sm" id="btn-script-end">结束</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn-sm" id="btn-script-prev">上一步</button>
+              <button class="btn-sm" id="btn-script-next">下一步</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 公式与说明 -->
+        <section class="panel-section no-collapse" id="section-formula">
+          <div class="section-header static">
+            <span>公式说明</span>
+          </div>
+          <div class="section-body" id="formula-body">
+            <div class="formula-tabs">
+              <button class="tab-btn active" data-tab="world-formula">World</button>
+              <button class="tab-btn" data-tab="view-formula">View</button>
+              <button class="tab-btn" data-tab="proj-formula">Projection</button>
+              <button class="tab-btn" data-tab="mvp-formula">MVP</button>
+            </div>
+            <div class="formula-content" id="world-formula">
+              <div class="formula-title">世界变换：平移 × 旋转 × 缩放</div>
+              <div class="formula-math">M<sub>W</sub> = T · R<sub>Y</sub> · R<sub>X</sub> · R<sub>Z</sub> · S</div>
+              <div class="formula-desc" id="world-formula-desc">
+                <b>平移矩阵 T：</b><br/>
+                将物体从本地坐标原点移到世界坐标(tx, ty, tz)。<br/>
+                第四列 [tx, ty, tz, 1] 指定位移量。<br/><br/>
+                <b>旋转矩阵 R：</b><br/>
+                绕各轴旋转，由 sin/cos 组成，行列式 = 1。<br/>
+                注意乘法顺序：先缩放，再旋转，最后平移。<br/><br/>
+                <b>缩放矩阵 S：</b><br/>
+                对角线分别为 (sx, sy, sz, 1)，统一缩放时三者相等。
+              </div>
+              <div class="formula-highlight-note" id="world-highlight-note"></div>
+            </div>
+            <div class="formula-content hidden" id="view-formula">
+              <div class="formula-title">视图变换：lookat 矩阵</div>
+              <div class="formula-math">M<sub>V</sub> = LookAt(eye, center, up)</div>
+              <div class="formula-desc">
+                <b>作用：</b>把世界坐标变换到相机空间（View Space）。<br/><br/>
+                <b>三个向量：</b><br/>
+                <code>eye</code> — 相机位置<br/>
+                <code>center</code> — 目标点（本演示固定为原点）<br/>
+                <code>up</code> — 上方向（Y 轴正方向）<br/><br/>
+                <b>推导：</b><br/>
+                前向量 f = normalize(center - eye)<br/>
+                右方向 r = normalize(f × up)<br/>
+                真实上方向 u = r × f<br/>
+                旋转部分取 r/u/-f 为行，平移部分取 -eye 投影。<br/><br/>
+                <b>直觉：</b>视图矩阵 = 相机模型矩阵的逆矩阵。
+              </div>
+            </div>
+            <div class="formula-content hidden" id="proj-formula">
+              <div class="formula-title">投影变换：透视/正交</div>
+              <div class="formula-math">M<sub>P</sub> = Perspective(fov, aspect, near, far)</div>
+              <div class="formula-desc">
+                <b>透视投影：</b><br/>
+                将视锥体（Frustum）映射到 NDC [-1,1]³。<br/>
+                令 <code>f = 1/tan(fov/2)</code><br/>
+                对角线为 [f/aspect, f, -(far+near)/(far-near), -1]<br/>
+                距离越远的点 w 分量越大，透视除法后越"小"，产生近大远小效果。<br/><br/>
+                <b>正交投影：</b><br/>
+                将长方体空间均匀缩放映射到 NDC。<br/>
+                无透视除法，远近物体大小相同。<br/><br/>
+                <b>NDC 约定：</b>本网页使用 WebGL 约定（Z 深度范围 [-1,1]），与 DirectX NDC [0,1] 深度范围不同。
+              </div>
+            </div>
+            <div class="formula-content hidden" id="mvp-formula">
+              <div class="formula-title">MVP 变换链</div>
+              <div class="formula-math">P<sub>clip</sub> = M<sub>P</sub> · M<sub>V</sub> · M<sub>W</sub> · P<sub>model</sub></div>
+              <div class="formula-desc">
+                <b>变换顺序（右→左）：</b><br/>
+                1. <span style="color:#ff6b6b">M_W：</span>模型空间 → 世界空间<br/>
+                2. <span style="color:#4ecdc4">M_V：</span>世界空间 → 相机空间<br/>
+                3. <span style="color:#f7b731">M_P：</span>相机空间 → 裁剪空间<br/>
+                4. 透视除法：裁剪空间 ÷ w → NDC<br/>
+                5. 视口变换：NDC → 屏幕像素坐标<br/><br/>
+                <b>注意：</b>Three.js 使用列向量右乘（M·v），与 HLSL 行向量左乘（v·M）格式互为转置。
+              </div>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <!-- 帮助弹窗 -->
+    <div id="help-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span>帮助 & 快捷键</span>
+          <button id="btn-close-help">&#10005;</button>
+        </div>
+        <div class="modal-body">
+          <table class="help-table">
+            <tr><th>快捷键</th><th>功能</th></tr>
+            <tr><td>R</td><td>全部重置</td></tr>
+            <tr><td>空格</td><td>开始/停止演示</td></tr>
+            <tr><td>1</td><td>正视角预设</td></tr>
+            <tr><td>2</td><td>侧视角预设</td></tr>
+            <tr><td>3</td><td>俯视角预设</td></tr>
+            <tr><td>4</td><td>等轴测预设</td></tr>
+          </table>
+          <hr/>
+          <div class="help-note">
+            <b>坐标系约定：</b>本演示使用 WebGL / Three.js 右手坐标系（Y 轴朝上）。<br/>
+            DirectX 11 使用左手坐标系（Z 轴朝向屏幕内），矩阵数值会有差异，<br/>
+            主要体现在 Z 轴方向与投影矩阵深度范围。核心变换原理一致。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 演示进度条 -->
+    <div id="demo-bar" class="hidden">
+      <div id="demo-progress"></div>
+      <span id="demo-label">演示中...</span>
+      <button id="btn-demo-stop">停止</button>
+    </div>
+
+    <!-- 底部状态栏 -->
+    <footer id="statusbar">
+      <span id="status-hint">就绪</span>
+      <span id="status-fps">-- FPS</span>
+    </footer>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

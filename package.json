@@ -1,0 +1,17 @@
+{
+  "name": "dx11-study",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "DX11 渲染矩阵可视化教学网页",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "vite": "^4.5.14"
+  }
+}

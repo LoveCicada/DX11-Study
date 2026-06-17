@@ -139,6 +139,59 @@ html, body {
   pointer-events: none;
 }
 
+#axis-legend {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  min-width: 160px;
+  background: rgba(10, 10, 24, 0.72);
+  border: 1px solid rgba(97, 218, 251, 0.28);
+  border-radius: 6px;
+  padding: 8px 10px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.axis-legend-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--highlight);
+  margin-bottom: 6px;
+}
+
+.axis-legend-item {
+  display: grid;
+  grid-template-columns: 10px 38px 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.axis-legend-item + .axis-legend-item {
+  margin-top: 5px;
+}
+
+.axis-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.08);
+}
+
+.axis-x { background: #ff4444; }
+.axis-y { background: #44ff44; }
+.axis-z { background: #4444ff; }
+
+.axis-desc {
+  color: var(--text-dim);
+  font-size: 10px;
+  line-height: 1.25;
+}
+
 /* ===== 右侧矩阵/公式面板 ===== */
 #panel-right {
   width: 300px;
@@ -298,6 +351,12 @@ html, body {
   color: var(--text);
 }
 
+.btn-sm.active {
+  background: rgba(97, 218, 251, 0.18);
+  border-color: var(--highlight);
+  color: var(--highlight);
+}
+
 .btn-xs {
   background: var(--bg-cell);
   border: 1px solid var(--border);
@@ -323,6 +382,25 @@ html, body {
 }
 
 .preset-btns .btn-sm { flex: 1 1 40%; min-width: 50px; }
+
+.tracker-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tracker-presets .btn-sm {
+  flex: 0 0 auto;
+  min-width: 64px;
+}
+
+#tracker-point-label {
+  flex: 1;
+  color: var(--text-dim);
+  font-size: 11px;
+  line-height: 1.35;
+}
 
 /* ===== 矩阵网格 ===== */
 .section-header .precision-btns {

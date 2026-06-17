@@ -2,6 +2,12 @@
 // 所有模块通过 store 共享和修改参数，使用简单发布-订阅模式
 
 export const state = {
+  // 场景对象参数
+  scene: {
+    modelType: 'box', // 'box' | 'sphere' | 'cylinder'
+    layoutMode: 'single', // 'single' | 'multi'
+    materialMode: 'solid' // 'solid' | 'normal' | 'checker' | 'wire'
+  },
   // 世界矩阵参数
   world: {
     tx: 0, ty: 0, tz: 0,
@@ -60,6 +66,18 @@ export function setWorld(key, value) {
   emit('any-changed')
 }
 
+export function setScene(key, value) {
+  state.scene[key] = value
+  emit('scene-changed', state.scene)
+  emit('any-changed')
+}
+
+export function setTrackPoint(point) {
+  Object.assign(state.trackPoint, point)
+  emit('track-point-changed', state.trackPoint)
+  emit('any-changed')
+}
+
 // 修改 view 参数并派发
 export function setView(key, value) {
   state.view[key] = value
@@ -102,18 +120,22 @@ export function resetAll() {
 }
 
 export function exportState() {
-  return JSON.stringify({ world: state.world, view: state.view, projection: state.projection }, null, 2)
+  return JSON.stringify({ scene: state.scene, world: state.world, view: state.view, projection: state.projection, trackPoint: state.trackPoint }, null, 2)
 }
 
 export function importState(jsonStr) {
   try {
     const data = JSON.parse(jsonStr)
+    if (data.scene) Object.assign(state.scene, data.scene)
     if (data.world) Object.assign(state.world, data.world)
     if (data.view) Object.assign(state.view, data.view)
     if (data.projection) Object.assign(state.projection, data.projection)
+    emit('scene-changed', state.scene)
     emit('world-changed', state.world)
     emit('view-changed', state.view)
     emit('projection-changed', state.projection)
+    if (data.trackPoint) Object.assign(state.trackPoint, data.trackPoint)
+    emit('track-point-changed', state.trackPoint)
     emit('any-changed')
     emit('import-done')
     return true

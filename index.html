@@ -37,6 +37,31 @@
             <span class="section-toggle">▾</span>
           </div>
           <div class="section-body" id="world-body">
+            <div class="param-group-label">模型类型</div>
+            <div class="param-row">
+              <label>几何体</label>
+              <select id="model-type">
+                <option value="box">立方体</option>
+                <option value="sphere">球体</option>
+                <option value="cylinder">圆柱</option>
+              </select>
+            </div>
+            <div class="param-row">
+              <label>场景布局</label>
+              <select id="scene-layout">
+                <option value="single">单物体</option>
+                <option value="multi">三物体</option>
+              </select>
+            </div>
+            <div class="param-row">
+              <label>材质模式</label>
+              <select id="material-mode">
+                <option value="solid">纯色</option>
+                <option value="normal">法线</option>
+                <option value="checker">棋盘格</option>
+                <option value="wire">线框</option>
+              </select>
+            </div>
             <div class="param-group-label">平移 Translation</div>
             <div class="param-row">
               <label>X</label>
@@ -174,13 +199,18 @@
             <span class="section-toggle">▾</span>
           </div>
           <div class="section-body" id="tracker-body">
-            <div class="tracker-hint">输入模型空间中的一个顶点坐标，观察它在各空间中的变换结果</div>
+            <div class="tracker-hint">输入模型空间中的一个点，观察它在各空间中的变换结果。切换模型时会自动给出推荐采样点。</div>
             <div class="param-row tracker-input">
               <label>X</label><input type="number" class="num-input" id="track-x" value="1" step="0.5" />
               <label>Y</label><input type="number" class="num-input" id="track-y" value="1" step="0.5" />
               <label>Z</label><input type="number" class="num-input" id="track-z" value="1" step="0.5" />
               <button class="btn-sm" id="btn-track">追踪</button>
             </div>
+            <div class="btn-row">
+              <button class="btn-sm" id="btn-track-suggested">使用推荐点</button>
+              <span id="tracker-point-label"></span>
+            </div>
+            <div class="tracker-presets" id="tracker-presets"></div>
             <div id="tracker-result"></div>
           </div>
         </section>
@@ -190,6 +220,12 @@
       <div id="viewport">
         <canvas id="three-canvas"></canvas>
         <div id="viewport-hint">鼠标左键旋转 · 右键平移 · 滚轮缩放</div>
+        <div id="axis-legend" aria-label="坐标轴图例">
+          <div class="axis-legend-title">坐标轴图例</div>
+          <div class="axis-legend-item"><span class="axis-swatch axis-x"></span><span>X 轴</span><span class="axis-desc">World / Local · 红色 · 左右方向</span></div>
+          <div class="axis-legend-item"><span class="axis-swatch axis-y"></span><span>Y 轴</span><span class="axis-desc">World / Local · 绿色 · 上下方向</span></div>
+          <div class="axis-legend-item"><span class="axis-swatch axis-z"></span><span>Z 轴</span><span class="axis-desc">World / Local · 蓝色 · 前后方向</span></div>
+        </div>
         <div id="viewport-mode-badge">透视投影</div>
       </div>
 

@@ -2,7 +2,7 @@
 // 将所有 HTML 滑杆/输入框绑定到 store 的 setWorld/setView/setProjection
 
 import {
-  state, setWorld, setView, setProjection,
+  state, setScene, setWorld, setView, setProjection,
   resetWorld, resetView, resetProjection, resetAll, on, emit
 } from '../state/store.js'
 import { setFrustumVisible } from '../visuals/frustum.js'
@@ -52,6 +52,7 @@ function bindParam(sliderId, numId, storeFn, key, opts = {}) {
 
 // ---- 从 store 同步 UI（导入/重置时） ----
 export function syncUI() {
+  const s = state.scene
   const w = state.world
   const v = state.view
   const p = state.projection
@@ -60,6 +61,15 @@ export function syncUI() {
     const s = document.getElementById(sid); if (s) s.value = val
     const n = document.getElementById(nid); if (n) n.value = val
   }
+
+  const modelSel = document.getElementById('model-type')
+  if (modelSel) modelSel.value = s.modelType
+
+  const layoutSel = document.getElementById('scene-layout')
+  if (layoutSel) layoutSel.value = s.layoutMode
+
+  const materialSel = document.getElementById('material-mode')
+  if (materialSel) materialSel.value = s.materialMode
 
   setSliderNum('world-tx', 'world-tx-num', w.tx)
   setSliderNum('world-ty', 'world-ty-num', w.ty)
@@ -98,6 +108,18 @@ export function syncUI() {
 
 export function initPanels() {
   // ===== World 面板 =====
+  document.getElementById('model-type')?.addEventListener('change', (e) => {
+    setScene('modelType', e.target.value)
+  })
+
+  document.getElementById('scene-layout')?.addEventListener('change', (e) => {
+    setScene('layoutMode', e.target.value)
+  })
+
+  document.getElementById('material-mode')?.addEventListener('change', (e) => {
+    setScene('materialMode', e.target.value)
+  })
+
   bindParam('world-tx', 'world-tx-num', setWorld, 'tx')
   bindParam('world-ty', 'world-ty-num', setWorld, 'ty')
   bindParam('world-tz', 'world-tz-num', setWorld, 'tz')

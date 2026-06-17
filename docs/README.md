@@ -13,6 +13,7 @@ flowchart LR
   proj --> mvp[05 MVP 管线]
   mvp --> dx11[06 DX11 差异]
   dx11 --> practice[07 实操指南]
+  practice --> devlog[08 开发记录]
 ```
 
 | 顺序 | 文档 | 一句话 |
@@ -25,6 +26,10 @@ flowchart LR
 | 6 | [05-mvp-pipeline.md](./05-mvp-pipeline.md) | World + View + Projection 如何串成完整管线 |
 | 7 | [06-dx11-vs-webgl.md](./06-dx11-vs-webgl.md) | DX11 与 WebGL 的坐标系、深度、矩阵约定差异 |
 | 8 | [07-practice-guide.md](./07-practice-guide.md) | 如何配合网页动手验证每个概念 |
+
+## 开发记录
+
+- [08-feature-development-log.md](./08-feature-development-log.md) — 记录模型切换、坐标追踪兼容与教学脚本兼容这次迭代的目标、实现与验证建议
 
 ## 怎么学最高效
 

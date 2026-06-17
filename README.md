@@ -15,7 +15,12 @@
 4. 按 [实操指南](docs/07-practice-guide.md) 完成 8 步教学脚本
 5. 学习 [DX11 与 WebGL 差异](docs/06-dx11-vs-webgl.md)，使用网页「坐标系」开关对照
 
+功能迭代记录见 [模型切换开发记录](docs/08-feature-development-log.md)。
+
 ## 功能
+- 模型切换：支持立方体、球体、圆柱三种教学模型
+- 场景布局：支持单物体 / 三物体对照，演示各自 World 与共享 View/Projection
+- 材质模式：支持纯色、法线、棋盘格、线框四种教学视图
 - World 参数调节：平移、旋转（Pitch/Yaw/Roll）、缩放
 - View 参数调节：相机距离、俯仰、方位、预设视角
 - Projection 参数调节：透视/正交、FOV、宽高比、Near/Far
@@ -23,9 +28,9 @@
 - 行/列主序切换：可在矩阵看板中切换 row-major / column-major 展示
 - 坐标系对照开关：Web RH 与 DX11 LH 对照展示（教学模式）
 - 视锥体可视化：Near/Far 与视锥联动
-- 坐标追踪：输入模型空间点，查看到 NDC 的逐步变换
+- 坐标追踪：输入模型空间点，查看到 NDC 的逐步变换，并支持按模型切换多个预置采样点
 - 演示模式：自动播放参数脚本
-- 教学脚本：按 World -> View -> Projection -> MVP 分步骤讲解
+- 教学脚本：按 World -> View -> Projection -> MVP 分步骤讲解，并兼容当前模型类型
 - 导入/导出：将当前参数保存为 JSON 并恢复
 
 ## 运行

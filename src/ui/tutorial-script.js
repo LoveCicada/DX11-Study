@@ -8,7 +8,7 @@ import { stopDemo } from './demo-mode.js'
 const scriptSteps = [
   {
     title: 'Step 1/8: 模型空间到世界空间',
-    desc: '先观察默认状态：所有矩阵接近单位矩阵，模型位于世界原点。',
+    desc: '先观察默认状态：所有矩阵接近单位矩阵，当前模型位于世界原点。',
     apply: () => {
       resetAll()
       applyTab('world-formula')
@@ -16,7 +16,7 @@ const scriptSteps = [
   },
   {
     title: 'Step 2/8: World-平移',
-    desc: '设置 tx=3, ty=1, tz=-2，观察世界矩阵第四列变化，模型整体位移。',
+    desc: '设置 tx=3, ty=1, tz=-2，观察世界矩阵第四列变化，当前模型整体位移。',
     apply: () => {
       setWorld('tx', 3)
       setWorld('ty', 1)

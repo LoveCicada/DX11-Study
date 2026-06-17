@@ -21,6 +21,7 @@
 - 模型切换：支持立方体、球体、圆柱三种教学模型
 - 场景布局：支持单物体 / 三物体对照，演示各自 World 与共享 View/Projection
 - 材质模式：支持纯色、法线、棋盘格、线框四种教学视图
+- 矩阵观察模式：支持完整模式 / 旋转观察模式，并可按 World / View / Projection / MVP 单独显隐
 - World 参数调节：平移、旋转（Pitch/Yaw/Roll）、缩放
 - View 参数调节：相机距离、俯仰、方位、预设视角
 - Projection 参数调节：透视/正交、FOV、宽高比、Near/Far

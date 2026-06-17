@@ -235,6 +235,9 @@
         <section class="panel-section no-collapse" id="section-matrices">
           <div class="section-header static">
             <span>矩阵数值</span>
+            <div class="matrix-focus-btns">
+              <button class="btn-xs" id="btn-matrix-focus" title="切换完整模式与旋转观察模式">完整模式</button>
+            </div>
             <div class="layout-btns">
               <button class="btn-xs layout-btn active" data-layout="row-major">行主序</button>
               <button class="btn-xs layout-btn" data-layout="column-major">列主序</button>
@@ -246,6 +249,12 @@
             </div>
           </div>
           <div class="section-body" id="matrices-body">
+            <div class="matrix-toggle-row" id="matrix-toggle-row">
+              <button class="btn-xs mat-toggle-btn active" data-mat-toggle="world">World</button>
+              <button class="btn-xs mat-toggle-btn active" data-mat-toggle="view">View</button>
+              <button class="btn-xs mat-toggle-btn active" data-mat-toggle="proj">Projection</button>
+              <button class="btn-xs mat-toggle-btn active" data-mat-toggle="mvp">MVP</button>
+            </div>
             <div class="matrix-block" id="mat-world">
               <div class="mat-label" style="color:#ff6b6b">World (M_W)</div>
               <div class="mat-grid" id="mat-world-grid"></div>

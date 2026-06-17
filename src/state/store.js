@@ -33,6 +33,8 @@ export const state = {
     showFrustum: true,
     matrixPrecision: 2,   // 2 | 4 | full
     matrixLayout: 'row-major', // 'row-major' | 'column-major'
+    matrixFocusMode: 'full', // 'full' | 'rotation-focus'
+    matrixVisible: { world: true, view: true, proj: true, mvp: true },
     coordinateMode: 'web-rh',  // 'web-rh' | 'dx11-lh'
     activeFormulaTab: 'world-formula'
   },

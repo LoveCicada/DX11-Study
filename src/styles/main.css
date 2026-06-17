@@ -415,12 +415,38 @@ html, body {
   gap: 3px;
 }
 
+.section-header .matrix-focus-btns {
+  margin-left: 8px;
+  display: flex;
+  gap: 3px;
+}
+
 .section-header .layout-btns + .precision-btns {
   margin-left: 6px;
 }
 
+.matrix-toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.mat-toggle-btn {
+  min-width: 56px;
+}
+
+.mat-toggle-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .matrix-block {
   margin-bottom: 12px;
+}
+
+.matrix-block.matrix-block-hidden {
+  display: none;
 }
 
 .mat-label {
